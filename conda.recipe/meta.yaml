@@ -1,0 +1,42 @@
+{% set name = "scikit-cuda" %}
+{% set version = "0.5.1" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 8f9b7d14aaf7148bd194d9c73169855e3738f4a3d52f59d21b07b61de758ef2a
+
+build:
+  number: 0
+  skip: true  # [not linux]
+  script: "{{ PYTHON }} -m pip install {{ SRC_DIR }} --no-deps --ignore-installed --no-cache-dir -vvv"
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - pip
+  run:
+    - python
+    # Needs pkg-resources
+    - setuptools
+    - mako >=1.0.1
+    - numpy >=1.2.0
+    - pycuda >=2016.1
+
+test:
+  imports:
+    - skcuda
+
+about:
+  home: https://github.com/lebedov/scikit-cuda/
+  license: BSD 3-Clause
+  license_file: docs/source/license.rst
+  summary: Python interface to GPU-powered libraries
+
+  dev_url: https://github.com/lebedov/scikit-cuda/
+  doc_url: https://scikit-cuda.readthedocs.org/
